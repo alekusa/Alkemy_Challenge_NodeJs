@@ -22,10 +22,6 @@ Api para el challenge de Alkemi.
   GET /user
 ```
 
-| Parameter | Type     | Description                |
-| :-------- | :------- | :------------------------- |
-| `api_key` | `string` | **Required**. Your API key |
-
 #### Add User
 
 ```http
@@ -37,15 +33,25 @@ Api para el challenge de Alkemi.
 | `username` | `string` | Nombre Completo |
 | `password` | `string` | 8 caracteres    |
 
+#### Get One User
+
+```http
+  GET /user/:id
+```
+
+| Parameter | Type  | Description                 |
+| :-------- | :---- | :-------------------------- |
+| `id`      | `int` | **Required**.Id of the User |
+
 #### Delete User
 
 ```http
   DELETE /user/:id
 ```
 
-| Parameter | Type  | Description           |
-| :-------- | :---- | :-------------------- |
-| `id`      | `int` | Numero ID del usuario |
+| Parameter | Type  | Description                 |
+| :-------- | :---- | :-------------------------- |
+| `id`      | `int` | **Required**.Id of the User |
 
 ## Author
 

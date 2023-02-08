@@ -1,4 +1,4 @@
-import { Op } from 'sequelize'
+import { json, Op } from 'sequelize'
 import Character from '../models/character.model.js'
 import Genre from '../models/genre.model.js'
 import Movie from '../models/movie.model.js'
@@ -53,7 +53,8 @@ class movieServices {
                 { model: Genre, attributes: ['name'] },
                 {
                     model: Character,
-                    as: 'characters'
+                    as: 'characters',
+                    through: { attributes: [] }
                 }
             ]
         })
@@ -68,11 +69,47 @@ class movieServices {
                 {
                     model: Character,
                     as: 'characters',
-                    attributes: ['name', 'img']
+                    attributes: ['name', 'img'],
+                    through: { attributes: [] }
                 }
             ],
             attributes: ['title', 'img', 'creationData', 'calification']
         })
+    }
+    async addMovie(object) {
+        const { genre, type } = object
+        const chars = object.characters
+        const characters = []
+        for (let i = 0; i < chars.length; i++) {
+            const oneCharacter = await Character.findOne({
+                where: { name: chars[i] }
+            })
+            characters.push(oneCharacter)
+        }
+        const newMovie = Movie.build(object)
+        if (genre) {
+            const objectGenre = await Genre.findOne({ where: { name: genre } })
+            newMovie.genre = objectGenre.id
+        } else {
+            newMovie.genre = 1
+            json({
+                Error: 'the Genre does not exist, set genre default (Accion)'
+            })
+        }
+        if (type) {
+            const objectTypo = await Type.findOne({
+                where: { description: type }
+            })
+            newMovie.type = objectTypo.id
+        } else {
+            newMovie.type = 1
+            json({
+                Error: 'the type does not exist, set type default (Pelicula)'
+            })
+        }
+        await newMovie.save()
+        await newMovie.addCharacters(characters)
+        return newMovie
     }
 }
 

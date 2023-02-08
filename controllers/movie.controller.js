@@ -29,3 +29,10 @@ export const getMovieDetail = async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 }
+export const addMovie = async (req, res) => {
+    try {
+        res.status(200).json(await serv.addMovie(req.body))
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}

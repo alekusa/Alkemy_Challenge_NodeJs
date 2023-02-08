@@ -17,10 +17,10 @@ class movieServices {
             queryToFind.genre = genrefind.id
         }
         if (order) {
-            if (order === 'ascendiente') {
-                orderBy.push(['createdAt', 'ASC'])
-            } else {
+            if (order === 'desc') {
                 orderBy.push(['createdAt', 'DESC'])
+            } else {
+                orderBy.push(['createdAt', 'ASC'])
             }
         }
 
@@ -42,7 +42,7 @@ class movieServices {
     }
     async getMoviesList() {
         return await Movie.findAll({
-            attributes: ['title', 'img', 'createdAt']
+            attributes: ['title', 'img', 'creationData']
         })
     }
     async getMovie(id) {
@@ -53,8 +53,22 @@ class movieServices {
                 { model: Genre, attributes: ['name'] },
                 {
                     model: Character,
+                    as: 'characters'
+                }
+            ]
+        })
+    }
+    //* No requerido en Alkemy,. *//
+    async getMovieDetail(id) {
+        return await Movie.findOne({
+            where: id,
+            include: [
+                { model: Type, attributes: ['description'] },
+                { model: Genre, attributes: ['name'] },
+                {
+                    model: Character,
                     as: 'characters',
-                    attributes: ['name']
+                    attributes: ['name', 'img']
                 }
             ],
             attributes: ['title', 'img', 'creationData', 'calification']

@@ -22,3 +22,10 @@ export const getMovie = async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 }
+export const getMovieDetail = async (req, res) => {
+    try {
+        res.status(200).json(await serv.getMovieDetail(req.params))
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}

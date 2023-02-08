@@ -9,6 +9,7 @@ import serviceEncryption from '../services/encryption.service.js'
 const servCrypt = new serviceEncryption()
 import db_Conect from '../db/sqlite.js'
 //* Creating the keys *//
+//* Generando las claves Foraneas *//
 Character.belongsToMany(Movie, {
     as: 'movies',
     through: 'CharactersMovies'
@@ -17,9 +18,10 @@ Movie.belongsToMany(Character, {
     as: 'characters',
     through: 'CharactersMovies'
 })
-//* Generando las claves Foraneas *//
 Movie.belongsTo(Genre, { foreignKey: 'genre' })
 Movie.belongsTo(Type, { foreignKey: 'type' })
+//* Funcion para cargar datos segun estado true/false en .env
+//* Function to load data depending on the true/false state in .env
 const db_Configuration = async (option = {}) => {
     try {
         if (option.data === 'true') {

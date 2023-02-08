@@ -1,4 +1,4 @@
-import { Model, Op } from 'sequelize'
+import { Op } from 'sequelize'
 import Character from '../models/character.model.js'
 import Genre from '../models/genre.model.js'
 import Movie from '../models/movie.model.js'
@@ -7,7 +7,6 @@ import Type from '../models/type.model.js'
 class movieServices {
     async getAllMovies(query) {
         const { title, genre, order } = query
-        //
         let queryToFind = {}
         let orderBy = []
         if (title) {
@@ -43,7 +42,7 @@ class movieServices {
     }
     async getMoviesList() {
         return await Movie.findAll({
-            attributes: ['img', 'title', 'createdAt']
+            attributes: ['title', 'img', 'createdAt']
         })
     }
     async getMovie(id) {
@@ -51,8 +50,14 @@ class movieServices {
             where: id,
             include: [
                 { model: Type, attributes: ['description'] },
-                { model: Genre, attributes: ['name'] }
-            ]
+                { model: Genre, attributes: ['name'] },
+                {
+                    model: Character,
+                    as: 'characters',
+                    attributes: ['name']
+                }
+            ],
+            attributes: ['title', 'img', 'creationData', 'calification']
         })
     }
 }

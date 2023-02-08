@@ -8,21 +8,21 @@ import Type from '../models/type.model.js'
 import serviceEncryption from '../services/encryption.service.js'
 const servCrypt = new serviceEncryption()
 import db_Conect from '../db/sqlite.js'
-
+//* Creating the keys *//
+Character.belongsToMany(Movie, {
+    as: 'movies',
+    through: 'CharactersMovies'
+})
+Movie.belongsToMany(Character, {
+    as: 'characters',
+    through: 'CharactersMovies'
+})
 //* Generando las claves Foraneas *//
+Movie.belongsTo(Genre, { foreignKey: 'genre' })
+Movie.belongsTo(Type, { foreignKey: 'type' })
 const db_Configuration = async (option = {}) => {
     try {
         if (option.data === 'true') {
-            //* Creating the keys *//
-            Character.belongsToMany(Movie, {
-                as: 'movies',
-                through: 'CharactersMovies'
-            })
-            Movie.belongsToMany(Character, {
-                as: 'characters',
-                through: 'CharactersMovies'
-            })
-
             //* Loading Data *//
             DataLoadUsers()
         } else {

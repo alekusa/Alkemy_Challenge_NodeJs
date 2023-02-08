@@ -1,7 +1,5 @@
 import { DataTypes } from 'sequelize'
 import db_Conect from '../db/sqlite.js'
-import Genre from './genre.model.js'
-import Type from './type.model.js'
 
 const Movie = db_Conect.define(
     'Movie',
@@ -34,5 +32,3 @@ const Movie = db_Conect.define(
 )
 
 export default Movie
-Movie.belongsTo(Genre, { foreignKey: 'genre' })
-Movie.belongsTo(Type, { foreignKey: 'type' })

@@ -10,8 +10,10 @@ import db_Configuration from './config/configDB.js'
 db_Configuration({ data: NEW_INSTALL })
 
 //*Rutas
-import userRoutes from './routes/user.routes.js'
 import indexRoutes from './routes/index.routes.js'
-app.use(userRoutes, indexRoutes)
+import userRoutes from './routes/user.routes.js'
+import movieRoutes from './routes/Movie.routes.js'
+
+app.use(userRoutes, indexRoutes, movieRoutes)
 
 export default app

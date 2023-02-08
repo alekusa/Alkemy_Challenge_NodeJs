@@ -22,8 +22,7 @@ const db_Configuration = async (option = {}) => {
                 as: 'characters',
                 through: 'CharactersMovies'
             })
-            Movie.belongsTo(Type, { foreignKey: 'type' })
-            Movie.belongsTo(Genre, { foreignKey: 'genre' })
+
             //* Loading Data *//
             DataLoadUsers()
         } else {
@@ -170,9 +169,9 @@ const DataLoadUsers = async () => {
     await char[2].addMovies([movie[3]])
     //* Agregando generos a las peliculas (Accion, Terror, Comedia, Drama )
     await movie[0].setGenre(genre[0])
-    await movie[1].setGenre(genre[1])
-    await movie[2].setGenre(genre[2])
-    await movie[3].setGenre(genre[3])
+    await movie[1].setGenre(genre[0])
+    await movie[2].setGenre(genre[0])
+    await movie[3].setGenre(genre[0])
     //* Agregando typos a las peliculas ( Pelicula / Serie)
     await movie[0].setType(type[0])
     await movie[1].setType(type[1])

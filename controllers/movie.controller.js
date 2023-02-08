@@ -36,3 +36,10 @@ export const addMovie = async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 }
+export const deletedMovie = async (req, res) => {
+    try {
+        res.status(200).json(await serv.deletedMovie(req.params.id))
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}

@@ -92,9 +92,7 @@ class movieServices {
             newMovie.genre = objectGenre.id
         } else {
             newMovie.genre = 1
-            json({
-                Error: 'the Genre does not exist, set genre default (Accion)'
-            })
+            console.log('the Genre does not exist, set genre default (Accion)')
         }
         if (type) {
             const objectTypo = await Type.findOne({
@@ -103,13 +101,21 @@ class movieServices {
             newMovie.type = objectTypo.id
         } else {
             newMovie.type = 1
-            json({
-                Error: 'the type does not exist, set type default (Pelicula)'
-            })
+            console.log('the type does not exist, set type default (Pelicula)')
         }
         await newMovie.save()
         await newMovie.addCharacters(characters)
+        console.log(newMovie.id)
         return newMovie
+    }
+    async deletedMovie(id) {
+        const existMovie = await Movie.findByPk(id)
+        if (existMovie) {
+            await Movie.destroy({ where: { id } })
+            return json(`Movie ${existMovie.title} deleted`)
+        } else {
+            return json('the Movie does not exist')
+        }
     }
 }
 

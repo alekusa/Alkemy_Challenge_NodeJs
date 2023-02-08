@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import {
     addMovie,
+    deletedMovie,
     getMovie,
     getMovieDetail,
     getMovies,
@@ -13,5 +14,6 @@ router.get('/movie', getMovies)
 router.get('/movie/:id', getMovie)
 router.get('/movie/:id/detail', getMovieDetail)
 router.post('/movie', addMovie)
+router.delete('/movie/:id', deletedMovie)
 
 export default router

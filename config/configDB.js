@@ -106,29 +106,29 @@ const DataLoadUsers = async () => {
     ])
     const genre = await Genre.bulkCreate([
         {
-            name: 'Accion',
+            name: 'accion',
             img: 'https://i.ytimg.com/vi/ApX2e9kchC4/maxresdefault.jpg'
         },
         {
-            name: 'Drama',
+            name: 'drama',
             img: 'https://assets.afcdn.com/story/20160805/949656_w807h1200cx401cy608.jpg'
         },
         {
-            name: 'Comedia',
+            name: 'comedia',
             img: 'https://i.ytimg.com/vi/xg0eNDIWYho/mqdefault.jpg'
         },
         {
-            name: 'Terror',
+            name: 'terror',
             img: 'https://ae01.alicdn.com/kf/Sef225ce7b47240508a4f19034336a1344/M-scara-de-grito.jpg_Q90.jpg_.webp'
         }
     ])
     //! VER DE CREAR UN ARRAY PELICULA / SERIE !//
     const type = await Type.bulkCreate([
         {
-            description: 'Pelicula'
+            description: 'pelicula'
         },
         {
-            description: 'Serie'
+            description: 'serie'
         }
     ])
     const movie = await Movie.bulkCreate([
@@ -160,20 +160,14 @@ const DataLoadUsers = async () => {
 
     //* Insertando datos en la tabla CaractersMovies (Actores que trabajan en las Peliculas)
     await char[0].addMovies([movie[0]])
-    await char[1].addMovies([movie[0]])
-    await char[2].addMovies([movie[0]])
-    await char[3].addMovies([movie[0]])
-    await char[1].addMovies([movie[1]])
-    await char[2].addMovies([movie[1]])
-    await char[3].addMovies([movie[1]])
-    await char[1].addMovies([movie[2]])
-    await char[2].addMovies([movie[2]])
-    await char[2].addMovies([movie[3]])
+    await char[1].addMovies([movie[0], movie[1], movie[2]])
+    await char[2].addMovies([movie[0], movie[1], movie[2], movie[3]])
+    await char[3].addMovies([movie[0], movie[1]])
     //* Agregando generos a las peliculas (Accion, Terror, Comedia, Drama )
     await movie[0].setGenre(genre[0])
-    await movie[1].setGenre(genre[0])
-    await movie[2].setGenre(genre[0])
-    await movie[3].setGenre(genre[0])
+    await movie[1].setGenre(genre[1])
+    await movie[2].setGenre(genre[2])
+    await movie[3].setGenre(genre[3])
     //* Agregando typos a las peliculas ( Pelicula / Serie)
     await movie[0].setType(type[0])
     await movie[1].setType(type[1])

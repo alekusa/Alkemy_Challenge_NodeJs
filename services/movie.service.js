@@ -5,6 +5,7 @@ import Movie from '../models/movie.model.js'
 import Type from '../models/type.model.js'
 
 class movieServices {
+    //* BUSCADOR DE PELICULAS POR GENERO O TITULO, ORDENADAS ASCENDIENTE O DESCENDIENTE. RESULTADO CON SUS ACTORES RESPECTIVOS*//
     async getAllMovies(query) {
         const { title, genre, order } = query
         let queryToFind = {}
@@ -40,11 +41,13 @@ class movieServices {
             order: orderBy
         })
     }
+    //* LISTADO DE PELICULAS ATRIBUTOS (TITULO, IMAGEN, FECHA DE CREACION) *//
     async getMoviesList() {
         return await Movie.findAll({
             attributes: ['title', 'img', 'creationData']
         })
     }
+    //* DETALLE DE UNA PELICULA CON SUS ACTORES *//
     async getMovie(id) {
         return await Movie.findOne({
             where: id,
@@ -76,38 +79,101 @@ class movieServices {
             attributes: ['title', 'img', 'creationData', 'calification']
         })
     }
+    //* CREANDO NUEVA PELICULA *//
     async addMovie(object) {
-        const { genre, type } = object
-        const chars = object.characters
-        const characters = []
-        for (let i = 0; i < chars.length; i++) {
-            const oneCharacter = await Character.findOne({
-                where: { name: chars[i] }
-            })
-            characters.push(oneCharacter)
-        }
-        const newMovie = Movie.build(object)
-        if (genre) {
-            const objectGenre = await Genre.findOne({ where: { name: genre } })
-            newMovie.genre = objectGenre.id
+        if (object) {
+            const { genre, type } = object
+            const characters = []
+            const chars = object.characters
+            if (chars) {
+                for (let i = 0; i < chars.length; i++) {
+                    const oneCharacter = await Character.findOne({
+                        where: { name: chars[i] }
+                    })
+                    characters.push(oneCharacter)
+                }
+            }
+            const newMovie = Movie.build(object)
+            if (genre) {
+                const objectGenre = await Genre.findOne({
+                    where: { name: genre }
+                })
+                if (objectGenre) {
+                    newMovie.genre = objectGenre.id
+                } else {
+                    newMovie.genre = 1
+                    console.log(
+                        'the Genre does not exist, set genre default (Accion)'
+                    )
+                }
+            } else {
+                newMovie.genre = 1
+                console.log(
+                    'the Genre does not exist, set genre default (Accion)'
+                )
+            }
+            if (type) {
+                const objectTypo = await Type.findOne({
+                    where: { description: type }
+                })
+                if (objectTypo) {
+                    newMovie.type = objectTypo.id
+                } else {
+                    newMovie.type = 1
+                    console.log(
+                        'the type does not exist, set type default (Pelicula)'
+                    )
+                }
+            } else {
+                newMovie.type = 1
+                console.log(
+                    'the type does not exist, set type default (Pelicula)'
+                )
+            }
+            await newMovie.save()
+            await newMovie.addCharacters(characters)
+            return newMovie
         } else {
-            newMovie.genre = 1
-            console.log('the Genre does not exist, set genre default (Accion)')
+            return json({ Error: 'you did not enter data' })
         }
-        if (type) {
-            const objectTypo = await Type.findOne({
-                where: { description: type }
-            })
-            newMovie.type = objectTypo.id
-        } else {
-            newMovie.type = 1
-            console.log('the type does not exist, set type default (Pelicula)')
-        }
-        await newMovie.save()
-        await newMovie.addCharacters(characters)
-        console.log(newMovie.id)
-        return newMovie
     }
+    //* ACTUALIZANDO UNA PELICULA *//
+    async updateMovie(object, id) {
+        const movie = {}
+        if (object.title) {
+            movie.title = object.title
+        }
+        if (object.img) {
+            movie.img = object.img
+        }
+        if (object.creationData) {
+            movie.creationData = object.creationData
+        }
+        if (object.calification) {
+            movie.calification = object.calification
+        }
+
+        if (object.genre) {
+            const objectGenre = await Genre.findOne({
+                where: { name: object.genre }
+            })
+            if (objectGenre) {
+                movie.genre = objectGenre.id
+            }
+        }
+        if (object.type) {
+            const objectTypo = await Type.findOne({
+                where: { description: object.type }
+            })
+            if (objectTypo) {
+                movie.type = objectTypo.id
+            }
+        }
+        await Movie.update(movie, {
+            where: id
+        })
+    }
+    //* BORRANDO UNA PELICULA *//
     async deletedMovie(id) {
         const existMovie = await Movie.findByPk(id)
         if (existMovie) {

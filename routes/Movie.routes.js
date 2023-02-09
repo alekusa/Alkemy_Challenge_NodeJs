@@ -5,7 +5,8 @@ import {
     getMovie,
     getMovieDetail,
     getMovies,
-    getMoviesList
+    getMoviesList,
+    updateMovie
 } from '../controllers/movie.controller.js'
 const router = Router()
 
@@ -15,5 +16,6 @@ router.get('/movie/:id', getMovie)
 router.get('/movie/:id/detail', getMovieDetail)
 router.post('/movie', addMovie)
 router.delete('/movie/:id', deletedMovie)
+router.put('/movie/:id', updateMovie)
 
 export default router

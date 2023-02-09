@@ -75,7 +75,7 @@ const DataLoadUsers = async () => {
             img: 'https://los40es00.epimg.net/los40/imagenes/2021/07/01/bigbang/1625165791_416626_1625166043_miniatura_normal.jpg',
             name: 'Robert Downey',
             age: 41,
-            weigth: 1.83,
+            weigth: 78,
             history:
                 'Al inicio de su carrera, en la década de los años 80, se consolidó como uno de los actores más sobresalientes, sin embargo, todo cambió cuando en 1996 fue arrestado por posesión de drogas, armas y por causas disturbios en la vía pública.'
         },
@@ -83,7 +83,7 @@ const DataLoadUsers = async () => {
             img: 'https://i.pinimg.com/originals/59/3a/88/593a88454de89df4ea0f73d7878c6c85.jpg',
             name: 'Tobey Maguire',
             age: 40,
-            weigth: 1.63,
+            weigth: 108.5,
             history:
                 'Tobey Maguire es un actor nacido el 27 de junio de 1975 en Santa Mónica, California, Estados Unidos.'
         },
@@ -91,7 +91,7 @@ const DataLoadUsers = async () => {
             img: 'https://img.wprost.pl/img/justin-timberlake/59/e4/0993570a6c7c31d36eba8fd6e482.jpeg',
             name: 'justin Timberlake',
             age: 34,
-            weigth: 1.73,
+            weigth: 83,
             history:
                 'Timberlake and Spears, 38, arrived at the 2001 awards show in coordinated head-to-toe denim outfits, which would become one of the most talked-about fashion moments of the early 2000s.'
         },
@@ -99,7 +99,7 @@ const DataLoadUsers = async () => {
             img: 'https://es.web.img3.acsta.net/c_310_420/pictures/17/05/24/16/09/445676.jpg',
             name: 'Ben Stiller',
             age: 44,
-            weigth: 1.77,
+            weigth: 75,
             history:
                 'Después de estudiar en la sección de cine de Ucla, Ben Stiller comienza su carrera como actor en 1985. Aparece en la comedia ‘Persecución muy, muy caliente’ (1987) y en ‘El imperio del sol’ (1987), de Steven Spielberg. Rueda el cortometraje ‘The hustler of money’, una parodia de la película de Martin Scorsese ‘El color del dinero’.'
         }

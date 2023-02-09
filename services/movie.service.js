@@ -5,7 +5,7 @@ import Movie from '../models/movie.model.js'
 import Type from '../models/type.model.js'
 
 class movieServices {
-    //* BUSCADOR DE PELICULAS POR GENERO O TITULO, ORDENADAS ASCENDIENTE O DESCENDIENTE. RESULTADO CON SUS ACTORES RESPECTIVOS*//
+    //* BUSQUEDA DE PELICULAS POR GENERO O TITULO, ORDENADAS ASCENDIENTE O DESCENDIENTE. RESULTADO CON SUS ACTORES RESPECTIVOS
     async getAllMovies(query) {
         const { title, genre, order } = query
         let queryToFind = {}

@@ -13,7 +13,7 @@ db_Configuration({ data: NEW_INSTALL })
 import indexRoutes from './routes/index.routes.js'
 import userRoutes from './routes/user.routes.js'
 import movieRoutes from './routes/Movie.routes.js'
-
-app.use(userRoutes, indexRoutes, movieRoutes)
+import characterRoutes from './routes/character.routes.js'
+app.use(userRoutes, indexRoutes, movieRoutes, characterRoutes)
 
 export default app

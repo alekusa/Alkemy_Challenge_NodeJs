@@ -137,9 +137,29 @@ class movieServices {
             return json({ Error: 'you did not enter data' })
         }
     }
-    //* ACTUALIZANDO UNA PELICULA *//
+    //* ACTUALIZANDO UNA PELICULA - INCLUYENDO SUS ACTORES*//
     async updateMovie(object, id) {
         const movie = {}
+        const characters = []
+        const deleteCharacters = []
+        const character = object.characters
+        const deleteCharacter = object.deleteCharacters
+        if (character) {
+            for (let i = 0; i < character.length; i++) {
+                const oneCharacter = await Character.findOne({
+                    where: { name: character[i] }
+                })
+                characters.push(oneCharacter)
+            }
+        }
+        if (deleteCharacter) {
+            for (let i = 0; i < deleteCharacter.length; i++) {
+                const oneCharacterDelete = await Character.findOne({
+                    where: { name: deleteCharacter[i] }
+                })
+                deleteCharacters.push(oneCharacterDelete)
+            }
+        }
         if (object.title) {
             movie.title = object.title
         }
@@ -172,6 +192,10 @@ class movieServices {
         await Movie.update(movie, {
             where: id
         })
+        const updateMovie = await Movie.findByPk(id.id)
+        await updateMovie.addCharacters(characters)
+        await updateMovie.removeCharacters(deleteCharacters)
+        return updateMovie
     }
     //* BORRANDO UNA PELICULA *//
     async deletedMovie(id) {

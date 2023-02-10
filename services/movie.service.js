@@ -81,6 +81,7 @@ class movieServices {
     }
     //* CREANDO NUEVA PELICULA *//
     async addMovie(object) {
+        //! CREAR UN MIDDELWARE
         if (JSON.stringify(object) == '{}') {
             return json('you did not enter data')
         }
@@ -140,6 +141,7 @@ class movieServices {
     }
     //* ACTUALIZANDO UNA PELICULA - INCLUYENDO SUS ACTORES*//
     async updateMovie(object, id) {
+        //! CREAR UN MIDDELWARE
         if (JSON.stringify(object) == '{}') {
             return json('you did not enter data')
         }

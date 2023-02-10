@@ -64,6 +64,7 @@ class characterService {
         })
     }
     async addCharacrter(object) {
+        //! CREAR UN MIDDELWARE
         if (JSON.stringify(object) == '{}') {
             return json('you did not enter data')
         }
@@ -80,6 +81,36 @@ class characterService {
                 await newCharacter.addMovies(movie)
             }
             return newCharacter
+        }
+    }
+    async updateCharacter(object, id) {
+        //! CREAR UN MIDDELWARE
+        if (JSON.stringify(object) == '{}') {
+            return json('you did not enter data')
+        }
+        const movie = []
+        if (object.addMovie) {
+            for (let i = 0; i < object.addMovie.length; i++) {
+                const oneMovie = await Movie.findOne({
+                    where: { title: object.addMovie[i] }
+                })
+                movie.push(oneMovie)
+            }
+        }
+        await Character.update(object, {
+            where: id
+        })
+        const updateCharacter = await Character.findByPk(id.id)
+        await updateCharacter.addMovies(movie)
+        return updateCharacter
+    }
+    async deletedCharacter(id) {
+        const existCharacter = await Character.findByPk(id.id)
+        if (existCharacter) {
+            await Character.destroy({ where: id })
+            return json(`Character ${existCharacter.name} deleted`)
+        } else {
+            return json('The Character does not exist')
         }
     }
 }

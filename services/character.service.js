@@ -22,8 +22,8 @@ class characterService {
     }
     async findCharacter(query) {
         const { name, age, weigth } = query
-        console.log(name)
         let queryToFind = {}
+        let searchMovie = {}
         if (name) {
             const search = { [Op.like]: `%${name}%` }
             const exist = await Character.findOne({ where: { name: search } })
@@ -49,10 +49,38 @@ class characterService {
                 return json(`there is no character with ${weigth} kg`)
             }
         }
-
+        if (query.movie) {
+            searchMovie = { title: { [Op.like]: `%${query.movie}%` } }
+        }
         return await Character.findAll({
-            where: queryToFind
+            where: queryToFind,
+            include: [
+                {
+                    model: Movie,
+                    as: 'movies',
+                    where: searchMovie
+                }
+            ]
         })
+    }
+    async addCharacrter(object) {
+        if (JSON.stringify(object) == '{}') {
+            return json('you did not enter data')
+        }
+        const movie = []
+        if (object) {
+            const newCharacter = await Character.create(object)
+            if (object.movie) {
+                for (let i = 0; i < object.movie.length; i++) {
+                    const oneMovie = await Movie.findOne({
+                        where: { title: object.movie[i] }
+                    })
+                    movie.push(oneMovie)
+                }
+                await newCharacter.addMovies(movie)
+            }
+            return newCharacter
+        }
     }
 }
 export default characterService

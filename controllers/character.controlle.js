@@ -22,3 +22,10 @@ export const findToCharacters = async (req, res) => {
         res.status(500).json({ message: error.message })
     }
 }
+export const addCharacter = async (req, res) => {
+    try {
+        res.status(200).json(await serv.addCharacrter(req.body))
+    } catch (error) {
+        res.status(500).json({ messaje: error.message })
+    }
+}

@@ -81,6 +81,9 @@ class movieServices {
     }
     //* CREANDO NUEVA PELICULA *//
     async addMovie(object) {
+        if (JSON.stringify(object) == '{}') {
+            return json('you did not enter data')
+        }
         if (object) {
             const { genre, type } = object
             const characters = []
@@ -133,12 +136,13 @@ class movieServices {
             await newMovie.save()
             await newMovie.addCharacters(characters)
             return newMovie
-        } else {
-            return json({ Error: 'you did not enter data' })
         }
     }
     //* ACTUALIZANDO UNA PELICULA - INCLUYENDO SUS ACTORES*//
     async updateMovie(object, id) {
+        if (JSON.stringify(object) == '{}') {
+            return json('you did not enter data')
+        }
         const movie = {}
         const characters = []
         const deleteCharacters = []

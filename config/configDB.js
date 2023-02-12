@@ -4,6 +4,7 @@ import Character from '../models/character.model.js'
 import Movie from '../models/movie.model.js'
 import Genre from '../models/genre.model.js'
 import Type from '../models/type.model.js'
+import Img from '../models/img.model.js'
 //* SERVICES *//
 import serviceEncryption from '../services/encryption.service.js'
 const servCrypt = new serviceEncryption()
@@ -20,6 +21,8 @@ Movie.belongsToMany(Character, {
 })
 Movie.belongsTo(Genre, { foreignKey: 'genre' })
 Movie.belongsTo(Type, { foreignKey: 'type' })
+//Movie.belongsTo(Img, { foreignKey: 'img' })
+Character.belongsTo(Img, { foreignKey: 'img' })
 //* Funcion para cargar datos segun estado true/false en .env
 //* Function to load data depending on the true/false state in .env
 const db_Configuration = async (option = {}) => {
@@ -72,7 +75,7 @@ const DataLoadUsers = async () => {
     ])
     const char = await Character.bulkCreate([
         {
-            img: 'https://los40es00.epimg.net/los40/imagenes/2021/07/01/bigbang/1625165791_416626_1625166043_miniatura_normal.jpg',
+            //img: 'https://los40es00.epimg.net/los40/imagenes/2021/07/01/bigbang/1625165791_416626_1625166043_miniatura_normal.jpg',
             name: 'Robert Downey',
             age: 41,
             weigth: 78,
@@ -80,7 +83,7 @@ const DataLoadUsers = async () => {
                 'Al inicio de su carrera, en la década de los años 80, se consolidó como uno de los actores más sobresalientes, sin embargo, todo cambió cuando en 1996 fue arrestado por posesión de drogas, armas y por causas disturbios en la vía pública.'
         },
         {
-            img: 'https://i.pinimg.com/originals/59/3a/88/593a88454de89df4ea0f73d7878c6c85.jpg',
+            //img: 'https://i.pinimg.com/originals/59/3a/88/593a88454de89df4ea0f73d7878c6c85.jpg',
             name: 'Tobey Maguire',
             age: 40,
             weigth: 108.5,
@@ -88,7 +91,7 @@ const DataLoadUsers = async () => {
                 'Tobey Maguire es un actor nacido el 27 de junio de 1975 en Santa Mónica, California, Estados Unidos.'
         },
         {
-            img: 'https://img.wprost.pl/img/justin-timberlake/59/e4/0993570a6c7c31d36eba8fd6e482.jpeg',
+            //img: 'https://img.wprost.pl/img/justin-timberlake/59/e4/0993570a6c7c31d36eba8fd6e482.jpeg',
             name: 'justin Timberlake',
             age: 34,
             weigth: 83,
@@ -96,7 +99,7 @@ const DataLoadUsers = async () => {
                 'Timberlake and Spears, 38, arrived at the 2001 awards show in coordinated head-to-toe denim outfits, which would become one of the most talked-about fashion moments of the early 2000s.'
         },
         {
-            img: 'https://es.web.img3.acsta.net/c_310_420/pictures/17/05/24/16/09/445676.jpg',
+            //img: 'https://es.web.img3.acsta.net/c_310_420/pictures/17/05/24/16/09/445676.jpg',
             name: 'Ben Stiller',
             age: 44,
             weigth: 75,

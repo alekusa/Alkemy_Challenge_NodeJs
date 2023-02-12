@@ -1,7 +1,9 @@
 import { json, Op } from 'sequelize'
 import Character from '../models/character.model.js'
+import Img from '../models/img.model.js'
 import Movie from '../models/movie.model.js'
-
+import { deleteImg, uploadImg } from '../libs/cloudinary.js'
+import fs from 'fs-extra'
 class characterService {
     async characterList() {
         return await Character.findAll({
@@ -63,18 +65,25 @@ class characterService {
             ]
         })
     }
-    async addCharacrter(object) {
+    async addCharacrter(object, file) {
         //! CREAR UN MIDDELWARE
         if (JSON.stringify(object) == '{}') {
             return json('you did not enter data')
         }
         const movie = []
+        if (file) {
+            const imgClud = await uploadImg(file.img.tempFilePath)
+            await fs.remove(file.img.tempFilePath)
+            const imgEndb = await Img.create(imgClud)
+            object.img = imgEndb.id
+        }
         if (object) {
             const newCharacter = await Character.create(object)
             if (object.movie) {
-                for (let i = 0; i < object.movie.length; i++) {
+                const moviesString = object.movie.split(', ')
+                for (let i = 0; i < moviesString.length; i++) {
                     const oneMovie = await Movie.findOne({
-                        where: { title: object.movie[i] }
+                        where: { title: moviesString[i] }
                     })
                     movie.push(oneMovie)
                 }
@@ -107,6 +116,11 @@ class characterService {
     async deletedCharacter(id) {
         const existCharacter = await Character.findByPk(id.id)
         if (existCharacter) {
+            const imgdeCharacter = await Img.findByPk(existCharacter.img)
+            if (imgdeCharacter) {
+                await deleteImg(imgdeCharacter.public_id)
+                await Img.destroy({ where: { id: imgdeCharacter.id } })
+            }
             await Character.destroy({ where: id })
             return json(`Character ${existCharacter.name} deleted`)
         } else {

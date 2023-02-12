@@ -20,12 +20,6 @@ const Movie = db_Conect.define(
                 min: 1,
                 max: 5
             }
-        },
-        genre: {
-            type: DataTypes.INTEGER
-        },
-        type: {
-            type: DataTypes.INTEGER
         }
     },
     {}

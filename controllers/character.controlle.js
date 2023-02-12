@@ -1,5 +1,6 @@
 import characterService from '../services/character.service.js'
 const serv = new characterService()
+//import { uploadImg } from '../libs/cloudinary.js'
 
 export const characterList = async (req, res) => {
     try {
@@ -24,7 +25,7 @@ export const findToCharacters = async (req, res) => {
 }
 export const addCharacter = async (req, res) => {
     try {
-        res.status(200).json(await serv.addCharacrter(req.body))
+        res.status(200).json(await serv.addCharacrter(req.body, req.files))
     } catch (error) {
         res.status(500).json({ messaje: error.message })
     }

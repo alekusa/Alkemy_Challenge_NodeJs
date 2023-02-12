@@ -12,7 +12,7 @@ const Genre = db_Conect.define(
             type: DataTypes.STRING
         }
     },
-    {}
+    { timestamps: false }
 )
 
 export default Genre

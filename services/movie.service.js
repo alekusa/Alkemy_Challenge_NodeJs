@@ -1,4 +1,4 @@
-import { json, Op } from 'sequelize'
+import { Op } from 'sequelize'
 import Character from '../models/character.model.js'
 import Genre from '../models/genre.model.js'
 import Movie from '../models/movie.model.js'
@@ -83,7 +83,7 @@ class movieServices {
     async addMovie(object) {
         //! CREAR UN MIDDELWARE
         if (JSON.stringify(object) == '{}') {
-            return json('you did not enter data')
+            return { Error: 'you did not enter data' }
         }
         if (object) {
             const { genre, type } = object
@@ -143,7 +143,7 @@ class movieServices {
     async updateMovie(object, id) {
         //! CREAR UN MIDDELWARE
         if (JSON.stringify(object) == '{}') {
-            return json('you did not enter data')
+            return { Error: 'you did not enter data' }
         }
         const movie = {}
         const characters = []
@@ -208,9 +208,9 @@ class movieServices {
         const existMovie = await Movie.findByPk(id)
         if (existMovie) {
             await Movie.destroy({ where: { id } })
-            return json(`Movie ${existMovie.title} deleted`)
+            return { Error: `Movie ${existMovie.title} deleted` }
         } else {
-            return json('the Movie does not exist')
+            return { Error: 'the Movie does not exist' }
         }
     }
 }

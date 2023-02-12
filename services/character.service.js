@@ -1,15 +1,20 @@
-import { json, Op } from 'sequelize'
+import { Op } from 'sequelize'
 import Character from '../models/character.model.js'
 import Img from '../models/img.model.js'
 import Movie from '../models/movie.model.js'
 import { deleteImg, uploadImg } from '../libs/cloudinary.js'
 import fs from 'fs-extra'
+import Genre from '../models/genre.model.js'
+import Type from '../models/type.model.js'
 class characterService {
+    //* GET a List of Characters *//
     async characterList() {
         return await Character.findAll({
-            attributes: ['img', 'name']
+            attributes: ['name'],
+            include: Img
         })
     }
+    //* GET details for characters **/
     async detailCharacters(id) {
         return await Character.findAll({
             where: id,
@@ -17,11 +22,14 @@ class characterService {
                 {
                     model: Movie,
                     as: 'movies',
-                    through: { attributes: [] }
-                }
+                    through: { attributes: [] },
+                    include: [Genre, Type]
+                },
+                { model: Img }
             ]
         })
     }
+    //* SEARCH Character by name, age, weigth *//
     async findCharacter(query) {
         const { name, age, weigth } = query
         let queryToFind = {}
@@ -32,7 +40,7 @@ class characterService {
             if (exist) {
                 queryToFind.name = search
             } else {
-                return json(`${name} does not exist`)
+                return { Eroor: `${name} does not exist` }
             }
         }
         if (age) {
@@ -40,7 +48,7 @@ class characterService {
             if (exist) {
                 queryToFind.age = age
             } else {
-                return json(`No character is ${age} years old`)
+                return { Error: `No character is ${age} years old` }
             }
         }
         if (weigth) {
@@ -48,7 +56,7 @@ class characterService {
             if (exist) {
                 queryToFind.weigth = weigth
             } else {
-                return json(`there is no character with ${weigth} kg`)
+                return { Error: `there is no character with ${weigth} kg` }
             }
         }
         if (query.movie) {
@@ -60,15 +68,21 @@ class characterService {
                 {
                     model: Movie,
                     as: 'movies',
-                    where: searchMovie
+                    where: searchMovie,
+                    through: { attributes: [] },
+                    include: [Genre, Type]
+                },
+                {
+                    model: Img
                 }
             ]
         })
     }
+    //* CREATED Character *//
     async addCharacrter(object, file) {
         //! CREAR UN MIDDELWARE
         if (JSON.stringify(object) == '{}') {
-            return json('you did not enter data')
+            return { Error: 'you did not enter data' }
         }
         const movie = []
         if (file) {
@@ -92,12 +106,27 @@ class characterService {
             return newCharacter
         }
     }
-    async updateCharacter(object, id) {
-        //! CREAR UN MIDDELWARE
+    //* UPDATE Character and images Cloud and db *//
+    async updateCharacter(object, id, file) {
+        //! CREAR UN MIDDELWARE //
         if (JSON.stringify(object) == '{}') {
-            return json('you did not enter data')
+            return { Error: 'you did not enter data' }
         }
+        //! FIN MIDDLEWARE //
         const movie = []
+        const existCharacter = await Character.findByPk(id.id)
+        if (existCharacter) {
+            if (file) {
+                const imgdeCharacter = await Img.findByPk(existCharacter.img)
+                if (imgdeCharacter) {
+                    await deleteImg(imgdeCharacter.public_id) //deleted from the cloudinary
+                    await Img.destroy({ where: { id: imgdeCharacter.id } }) //deleted from the DB
+                }
+                const newImg = await uploadImg(file.img.tempFilePath) // upload on the cloudinary
+                const newImgDB = await Img.create(newImg)
+                object.img = newImgDB.id
+            }
+        }
         if (object.addMovie) {
             for (let i = 0; i < object.addMovie.length; i++) {
                 const oneMovie = await Movie.findOne({
@@ -113,6 +142,7 @@ class characterService {
         await updateCharacter.addMovies(movie)
         return updateCharacter
     }
+    //* DELETED Characters and Images cloud and db *//
     async deletedCharacter(id) {
         const existCharacter = await Character.findByPk(id.id)
         if (existCharacter) {
@@ -122,9 +152,9 @@ class characterService {
                 await Img.destroy({ where: { id: imgdeCharacter.id } })
             }
             await Character.destroy({ where: id })
-            return json(`Character ${existCharacter.name} deleted`)
+            return { Error: `Character ${existCharacter.name} deleted` }
         } else {
-            return json('The Character does not exist')
+            return { Error: 'The Character does not exist' }
         }
     }
 }

@@ -1,4 +1,3 @@
-import { json, Op } from 'sequelize'
 import User from '../models/user.model.js'
 import jwt from 'jsonwebtoken'
 import serviceEncryption from './encryption.service.js'
@@ -9,8 +8,8 @@ export const getUsersss = () => {
 }
 
 class services {
-    getUsers() {
-        return User.findAll()
+    async getUsers() {
+        return await User.findAll()
     }
     async setUser(object) {
         const newUser = User.build(object)
@@ -21,15 +20,15 @@ class services {
         const existeID = await User.findOne({ where: id })
         if (existeID) {
             await User.destroy({ where: id })
-            return json(`Usuario ${existeID.username} eliminado`)
+            return { Error: `Usuario ${existeID.username} eliminado` }
         } else {
-            return json({ error: 'No existe el usuario' })
+            return { Error: 'No existe el usuario' }
         }
     }
-    getUser(id) {
-        const uss = User.findOne({ where: id })
+    async getUser(id) {
+        const uss = await User.findOne({ where: id })
         if (!uss) {
-            return json('No existe el Usuario')
+            return { Error: 'No existe el Usuario' }
         }
         return uss
     }
@@ -39,7 +38,7 @@ class services {
             await User.update(object, { where: id })
             return User.findByPk(id.id)
         } else {
-            return json('No existe el usuario')
+            return { Error: 'No existe el usuario' }
         }
     }
     async signUp(object) {

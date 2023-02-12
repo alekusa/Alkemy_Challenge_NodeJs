@@ -32,7 +32,9 @@ export const addCharacter = async (req, res) => {
 }
 export const updateCharacter = async (req, res) => {
     try {
-        res.status(200).json(await serv.updateCharacter(req.body, req.params))
+        res.status(200).json(
+            await serv.updateCharacter(req.body, req.params, req.files)
+        )
     } catch (error) {
         res.status(500).json({ messaje: error.message })
     }

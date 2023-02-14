@@ -6,6 +6,7 @@ import Type from '../models/type.model.js'
 
 class movieServices {
     //* BUSQUEDA DE PELICULAS POR GENERO O TITULO, ORDENADAS ASCENDIENTE O DESCENDIENTE. RESULTADO CON SUS ACTORES RESPECTIVOS
+    //TODO REVISAR AL COMPLETO INCLUIR LAS NUEVAS IMG DESDE CLOUDINARY y LOS RETURN DE STATUS
     async getAllMovies(query) {
         const { title, genre, order } = query
         let queryToFind = {}
@@ -48,6 +49,7 @@ class movieServices {
         })
     }
     //* DETALLE DE UNA PELICULA CON SUS ACTORES *//
+    //FIXME BUSCAR IMG
     async getMovie(id) {
         return await Movie.findOne({
             where: id,
@@ -64,6 +66,7 @@ class movieServices {
     }
     //* No requerido en Alkemy,. *//
     async getMovieDetail(id) {
+        //BUG VEResto
         return await Movie.findOne({
             where: id,
             include: [

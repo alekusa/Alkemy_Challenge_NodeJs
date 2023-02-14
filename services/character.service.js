@@ -80,7 +80,7 @@ class characterService {
     }
     //* CREATED Character *//
     async addCharacrter(object, file) {
-        //! CREAR UN MIDDELWARE
+        //TODO CREAR UN MIDDELWARE
         if (JSON.stringify(object) == '{}') {
             return { Error: 'you did not enter data' }
         }
@@ -108,7 +108,7 @@ class characterService {
     }
     //* UPDATE Character and images Cloud and db *//
     async updateCharacter(object, id, file) {
-        //! CREAR UN MIDDELWARE //
+        //TODO CREAR UN MIDDELWARE //
         if (JSON.stringify(object) == '{}') {
             return { Error: 'you did not enter data' }
         }

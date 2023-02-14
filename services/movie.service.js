@@ -1,3 +1,4 @@
+import { response } from 'express'
 import { Op } from 'sequelize'
 import Character from '../models/character.model.js'
 import Genre from '../models/genre.model.js'
@@ -6,7 +7,6 @@ import Type from '../models/type.model.js'
 
 class movieServices {
     //* BUSQUEDA DE PELICULAS POR GENERO O TITULO, ORDENADAS ASCENDIENTE O DESCENDIENTE. RESULTADO CON SUS ACTORES RESPECTIVOS
-    //TODO REVISAR AL COMPLETO INCLUIR LAS NUEVAS IMG DESDE CLOUDINARY y LOS RETURN DE STATUS
     async getAllMovies(query) {
         const { title, genre, order } = query
         let queryToFind = {}
@@ -25,8 +25,7 @@ class movieServices {
                 orderBy.push(['createdAt', 'ASC'])
             }
         }
-
-        return await Movie.findAll({
+        const result = await Movie.findAll({
             where: queryToFind,
             attributes: ['title', 'img', 'creationData', 'calification'],
             include: [
@@ -41,51 +40,75 @@ class movieServices {
             ],
             order: orderBy
         })
+        response.status(200)
+        return result
     }
     //* LISTADO DE PELICULAS ATRIBUTOS (TITULO, IMAGEN, FECHA DE CREACION) *//
     async getMoviesList() {
-        return await Movie.findAll({
+        const result = await Movie.findAll({
             attributes: ['title', 'img', 'creationData']
         })
+        response.status(200)
+        return result
     }
     //* DETALLE DE UNA PELICULA CON SUS ACTORES *//
-    //FIXME BUSCAR IMG
     async getMovie(id) {
-        return await Movie.findOne({
-            where: id,
-            include: [
-                { model: Type, attributes: ['description'] },
-                { model: Genre, attributes: ['name'] },
-                {
-                    model: Character,
-                    as: 'characters',
-                    through: { attributes: [] }
-                }
-            ]
-        })
+        //TODO CREAR UN MIDDELWARE //
+        if (JSON.stringify(object) == '{}') {
+            response.status(400)
+            return { Error: 'you did not enter data' }
+        }
+        const existMovie = await Movie.findByPk(id.id)
+        if (existMovie) {
+            const result = await Movie.findOne({
+                where: id,
+                include: [
+                    { model: Type, attributes: ['description'] },
+                    { model: Genre, attributes: ['name'] },
+                    {
+                        model: Character,
+                        as: 'characters',
+                        through: { attributes: [] }
+                    }
+                ]
+            })
+            response.status(200)
+            return result
+        } else {
+            response.status(400)
+            return { Error: 'the Movie des not exist' }
+        }
     }
     //* No requerido en Alkemy,. *//
     async getMovieDetail(id) {
-        //BUG VEResto
-        return await Movie.findOne({
-            where: id,
-            include: [
-                { model: Type, attributes: ['description'] },
-                { model: Genre, attributes: ['name'] },
-                {
-                    model: Character,
-                    as: 'characters',
-                    attributes: ['name', 'img'],
-                    through: { attributes: [] }
-                }
-            ],
-            attributes: ['title', 'img', 'creationData', 'calification']
-        })
+        const existMovie = await Movie.findByPk(id.id)
+        if (existMovie) {
+            const resutl = await Movie.findOne({
+                where: id,
+                include: [
+                    { model: Type, attributes: ['description'] },
+                    { model: Genre, attributes: ['name'] },
+                    {
+                        model: Character,
+                        as: 'characters',
+                        attributes: ['name', 'img'],
+                        through: { attributes: [] }
+                    }
+                ],
+                attributes: ['title', 'img', 'creationData', 'calification']
+            })
+            response.status(200)
+            return resutl
+        } else {
+            response.status(400)
+            return { Error: 'the Movie does not exist' }
+        }
     }
     //* CREANDO NUEVA PELICULA *//
     async addMovie(object) {
         //TODO! CREAR UN MIDDELWARE
         if (JSON.stringify(object) == '{}') {
+            response.status(400)
             return { Error: 'you did not enter data' }
         }
         if (object) {
@@ -139,7 +162,11 @@ class movieServices {
             }
             await newMovie.save()
             await newMovie.addCharacters(characters)
+            response.status(201)
             return newMovie
+        } else {
+            response.status(500)
+            return { Error: 'The data is wrong' }
         }
     }
     //* ACTUALIZANDO UNA PELICULA - INCLUYENDO SUS ACTORES*//
@@ -148,71 +175,80 @@ class movieServices {
         if (JSON.stringify(object) == '{}') {
             return { Error: 'you did not enter data' }
         }
-        const movie = {}
-        const characters = []
-        const deleteCharacters = []
-        const character = object.characters
-        const deleteCharacter = object.deleteCharacters
-        if (character) {
-            for (let i = 0; i < character.length; i++) {
-                const oneCharacter = await Character.findOne({
-                    where: { name: character[i] }
-                })
-                characters.push(oneCharacter)
+        const existMovie = await Movie.findByPk(id.id)
+        if (existMovie) {
+            const movie = {}
+            const characters = []
+            const deleteCharacters = []
+            const character = object.characters
+            const deleteCharacter = object.deleteCharacters
+            if (character) {
+                for (let i = 0; i < character.length; i++) {
+                    const oneCharacter = await Character.findOne({
+                        where: { name: character[i] }
+                    })
+                    characters.push(oneCharacter)
+                }
             }
-        }
-        if (deleteCharacter) {
-            for (let i = 0; i < deleteCharacter.length; i++) {
-                const oneCharacterDelete = await Character.findOne({
-                    where: { name: deleteCharacter[i] }
-                })
-                deleteCharacters.push(oneCharacterDelete)
+            if (deleteCharacter) {
+                for (let i = 0; i < deleteCharacter.length; i++) {
+                    const oneCharacterDelete = await Character.findOne({
+                        where: { name: deleteCharacter[i] }
+                    })
+                    deleteCharacters.push(oneCharacterDelete)
+                }
             }
-        }
-        if (object.title) {
-            movie.title = object.title
-        }
-        if (object.img) {
-            movie.img = object.img
-        }
-        if (object.creationData) {
-            movie.creationData = object.creationData
-        }
-        if (object.calification) {
-            movie.calification = object.calification
-        }
+            if (object.title) {
+                movie.title = object.title
+            }
+            if (object.img) {
+                movie.img = object.img
+            }
+            if (object.creationData) {
+                movie.creationData = object.creationData
+            }
+            if (object.calification) {
+                movie.calification = object.calification
+            }
 
-        if (object.genre) {
-            const objectGenre = await Genre.findOne({
-                where: { name: object.genre }
-            })
-            if (objectGenre) {
-                movie.genre = objectGenre.id
+            if (object.genre) {
+                const objectGenre = await Genre.findOne({
+                    where: { name: object.genre }
+                })
+                if (objectGenre) {
+                    movie.genre = objectGenre.id
+                }
             }
-        }
-        if (object.type) {
-            const objectTypo = await Type.findOne({
-                where: { description: object.type }
-            })
-            if (objectTypo) {
-                movie.type = objectTypo.id
+            if (object.type) {
+                const objectTypo = await Type.findOne({
+                    where: { description: object.type }
+                })
+                if (objectTypo) {
+                    movie.type = objectTypo.id
+                }
             }
+            await Movie.update(movie, {
+                where: id
+            })
+            const updateMovie = await Movie.findByPk(id.id)
+            await updateMovie.addCharacters(characters)
+            await updateMovie.removeCharacters(deleteCharacters)
+            response.status(200)
+            return updateMovie
+        } else {
+            response.status(400)
+            return { Erros: 'The Movie does not exist' }
         }
-        await Movie.update(movie, {
-            where: id
-        })
-        const updateMovie = await Movie.findByPk(id.id)
-        await updateMovie.addCharacters(characters)
-        await updateMovie.removeCharacters(deleteCharacters)
-        return updateMovie
     }
     //* BORRANDO UNA PELICULA *//
     async deletedMovie(id) {
         const existMovie = await Movie.findByPk(id)
         if (existMovie) {
             await Movie.destroy({ where: { id } })
+            response.status(200)
             return { Error: `Movie ${existMovie.title} deleted` }
         } else {
+            response.status(400)
             return { Error: 'the Movie does not exist' }
         }
     }

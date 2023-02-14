@@ -12,13 +12,23 @@ class characterService {
     async characterList() {
         const result = await Character.findAll({
             attributes: ['name'],
-            include: Img
+            include: [{ model: Img, attributes: ['secure_url'] }]
         })
-        //response.status(200)
-        return result
+        if (result) {
+            response.status(200)
+            return result
+        } else {
+            response.status(204) //No Content / Sin Contenido
+            return { Error: 'No data Stored' }
+        }
     }
     //* GET details for characters **/
     async detailCharacters(id) {
+        //TODO CREAR UN MIDDELWARE
+        if (JSON.stringify(object) == '{}') {
+            response.status(400) //Bad Request / Mala peticion
+            return { Error: 'you did not enter data' }
+        }
         const result = await Character.findOne({
             where: id,
             include: [
@@ -35,7 +45,7 @@ class characterService {
             response.status(200)
             return result
         }
-        response.status(500)
+        response.status(404) //The requested resource was not found / No se encontró el recurso solicitado
         return { Error: 'the Character does not exist' }
     }
     //* SEARCH Character by name, age, weigth *//
@@ -71,7 +81,7 @@ class characterService {
         if (query.movie) {
             searchMovie = { title: { [Op.like]: `%${query.movie}%` } }
         }
-        return await Character.findAll({
+        const result = await Character.findAll({
             where: queryToFind,
             include: [
                 {
@@ -86,11 +96,15 @@ class characterService {
                 }
             ]
         })
+
+        response.status(200)
+        return result
     }
     //* CREATED Character *//
     async addCharacrter(object, file) {
         //TODO CREAR UN MIDDELWARE
         if (JSON.stringify(object) == '{}') {
+            response.status(400)
             return { Error: 'you did not enter data' }
         }
         const movie = []
@@ -112,13 +126,18 @@ class characterService {
                 }
                 await newCharacter.addMovies(movie)
             }
+            response.status(201)
             return newCharacter
+        } else {
+            response.status(500)
+            return { Error: 'The data is wrong' }
         }
     }
     //* UPDATE Character and images Cloud and db *//
     async updateCharacter(object, id, file) {
         //TODO CREAR UN MIDDELWARE //
         if (JSON.stringify(object) == '{}') {
+            response.status(400)
             return { Error: 'you did not enter data' }
         }
         //! FIN MIDDLEWARE //
@@ -132,27 +151,38 @@ class characterService {
                     await Img.destroy({ where: { id: imgdeCharacter.id } }) //deleted from the DB
                 }
                 const newImg = await uploadImg(file.img.tempFilePath) // upload on the cloudinary
-                const newImgDB = await Img.create(newImg)
-                object.img = newImgDB.id
+                const newImgDB = await Img.create(newImg) //solo va a cargar los datos que coincida con las columnas de la db
+                object.img = newImgDB.id //cargo la id al objeto para luego actualizar
             }
-        }
-        if (object.addMovie) {
-            for (let i = 0; i < object.addMovie.length; i++) {
-                const oneMovie = await Movie.findOne({
-                    where: { title: object.addMovie[i] }
-                })
-                movie.push(oneMovie)
+
+            if (object.addMovie) {
+                for (let i = 0; i < object.addMovie.length; i++) {
+                    const oneMovie = await Movie.findOne({
+                        where: { title: object.addMovie[i] }
+                    })
+                    movie.push(oneMovie)
+                }
             }
+            await Character.update(object, {
+                where: id
+            })
+            const updateCharacter = await Character.findByPk(id.id)
+            await updateCharacter.addMovies(movie)
+            response.status(200)
+            return updateCharacter
+        } else {
+            response.status(400)
+            return { Error: 'the Character does not exist' }
         }
-        await Character.update(object, {
-            where: id
-        })
-        const updateCharacter = await Character.findByPk(id.id)
-        await updateCharacter.addMovies(movie)
-        return updateCharacter
     }
     //* DELETED Characters and Images cloud and db *//
     async deletedCharacter(id) {
+        //TODO CREAR UN MIDDELWARE //
+        if (JSON.stringify(object) == '{}') {
+            response.status(400)
+            return { Error: 'you did not enter data' }
+        }
+        //! FIN MIDDLEWARE //
         const existCharacter = await Character.findByPk(id.id)
         if (existCharacter) {
             const imgdeCharacter = await Img.findByPk(existCharacter.img)

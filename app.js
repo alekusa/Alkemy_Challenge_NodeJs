@@ -6,7 +6,7 @@ const app = express()
 //middleware
 app.use(cors())
 app.use(express.json())
-app.use(fileUpload({ useTempFiles:true, tempFileDir: './upload'}))
+app.use(fileUpload({ useTempFiles: true, tempFileDir: './upload' }))
 
 //* Crea tablas las llena de datos *//
 import { NEW_INSTALL } from './config/config.js'

@@ -6,17 +6,20 @@ import { deleteImg, uploadImg } from '../libs/cloudinary.js'
 import fs from 'fs-extra'
 import Genre from '../models/genre.model.js'
 import Type from '../models/type.model.js'
+import { response } from 'express'
 class characterService {
     //* GET a List of Characters *//
     async characterList() {
-        return await Character.findAll({
+        const result = await Character.findAll({
             attributes: ['name'],
             include: Img
         })
+        //response.status(200)
+        return result
     }
     //* GET details for characters **/
     async detailCharacters(id) {
-        return await Character.findAll({
+        const result = await Character.findOne({
             where: id,
             include: [
                 {
@@ -28,6 +31,12 @@ class characterService {
                 { model: Img }
             ]
         })
+        if (result) {
+            response.status(200)
+            return result
+        }
+        response.status(500)
+        return { Error: 'the Character does not exist' }
     }
     //* SEARCH Character by name, age, weigth *//
     async findCharacter(query) {

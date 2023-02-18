@@ -6,6 +6,7 @@ const app = express()
 //middleware
 app.use(cors())
 app.use(express.json())
+// Cloudinary
 app.use(fileUpload({ useTempFiles: true, tempFileDir: './upload' }))
 
 //* Crea tablas las llena de datos *//

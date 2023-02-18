@@ -24,11 +24,6 @@ class characterService {
     }
     //* GET details for characters **/
     async detailCharacters(id) {
-        //TODO CREAR UN MIDDELWARE
-        if (JSON.stringify(object) == '{}') {
-            response.status(400) //Bad Request / Mala peticion
-            return { Error: 'you did not enter data' }
-        }
         const result = await Character.findOne({
             where: id,
             include: [
@@ -177,12 +172,6 @@ class characterService {
     }
     //* DELETED Characters and Images cloud and db *//
     async deletedCharacter(id) {
-        //TODO CREAR UN MIDDELWARE //
-        if (JSON.stringify(object) == '{}') {
-            response.status(400)
-            return { Error: 'you did not enter data' }
-        }
-        //! FIN MIDDLEWARE //
         const existCharacter = await Character.findByPk(id.id)
         if (existCharacter) {
             const imgdeCharacter = await Img.findByPk(existCharacter.img)

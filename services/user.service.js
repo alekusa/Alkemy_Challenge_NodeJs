@@ -68,7 +68,7 @@ class services {
         )
         if (comparePass) {
             const token = jwt.sign({ id: user.id }, 'palabraSecreta', {
-                expiresIn: 86400
+                //expiresIn: 86400
             })
             return { token }
         } else {

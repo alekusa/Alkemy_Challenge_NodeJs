@@ -21,7 +21,6 @@ Movie.belongsToMany(Character, {
 })
 Movie.belongsTo(Genre, { foreignKey: 'genre' })
 Movie.belongsTo(Type, { foreignKey: 'type' })
-//Movie.belongsTo(Img, { foreignKey: 'img' })
 Character.belongsTo(Img, { foreignKey: 'img' })
 //* Funcion para cargar datos segun estado true/false en .env
 //* Function to load data depending on the true/false state in .env
@@ -75,7 +74,9 @@ const DataLoadUsers = async () => {
     ])
     const char = await Character.bulkCreate([
         {
-            //img: 'https://los40es00.epimg.net/los40/imagenes/2021/07/01/bigbang/1625165791_416626_1625166043_miniatura_normal.jpg',
+            //BUG cargar usuarios nuevos desde la APP y cargar las imagenes aca con ID despues
+            //TODO osea cargar cuatro usuarios completos desde POST para despues venir y compiar todos los datos aca
+            img: 1,
             name: 'Robert Downey',
             age: 41,
             weigth: 78,

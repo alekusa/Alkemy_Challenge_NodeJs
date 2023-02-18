@@ -7,13 +7,14 @@ import {
     findToCharacters,
     updateCharacter
 } from '../controllers/character.controlle.js'
+import { isAdmin, veryfyToken } from '../middleware/auth.middleware.js'
 const router = Router()
 
-router.get('/characters', characterList)
-router.get('/character/:id', detailCharacters)
-router.get('/character', findToCharacters)
-router.post('/character', addCharacter)
-router.put('/character/:id', updateCharacter)
-router.delete('/character/:id', deleteCharacter)
+router.get('/characters', [veryfyToken], characterList)
+router.get('/character/:id', veryfyToken, detailCharacters)
+router.get('/character', veryfyToken, findToCharacters)
+router.post('/character', [veryfyToken, isAdmin], addCharacter)
+router.put('/character/:id', [veryfyToken, isAdmin], updateCharacter)
+router.delete('/character/:id', [veryfyToken, isAdmin], deleteCharacter)
 
 export default router

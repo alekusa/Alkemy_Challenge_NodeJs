@@ -53,11 +53,6 @@ class movieServices {
     }
     //* DETALLE DE UNA PELICULA CON SUS ACTORES *//
     async getMovie(id) {
-        //TODO CREAR UN MIDDELWARE //
-        if (JSON.stringify(object) == '{}') {
-            response.status(400)
-            return { Error: 'you did not enter data' }
-        }
         const existMovie = await Movie.findByPk(id.id)
         if (existMovie) {
             const result = await Movie.findOne({
@@ -171,7 +166,6 @@ class movieServices {
     }
     //* ACTUALIZANDO UNA PELICULA - INCLUYENDO SUS ACTORES*//
     async updateMovie(object, id) {
-        //TODO! CREAR UN MIDDELWARE
         if (JSON.stringify(object) == '{}') {
             return { Error: 'you did not enter data' }
         }
@@ -246,7 +240,7 @@ class movieServices {
         if (existMovie) {
             await Movie.destroy({ where: { id } })
             response.status(200)
-            return { Error: `Movie ${existMovie.title} deleted` }
+            return { DELETED: `Movie ${existMovie.title} deleted` }
         } else {
             response.status(400)
             return { Error: 'the Movie does not exist' }

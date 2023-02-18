@@ -5,7 +5,10 @@ export const veryfyToken = async (req, res, next) => {
     try {
         const token = req.headers['acces-token']
         if (!token)
-            return res.status(403).json({ message: 'No token provider' })
+            return res
+                .status(403)
+                .json({ 'Error Message': 'No token provider' })
+        //BUG colocar palabraSecreta en Archivo .enc
         const decoder = jwt.verify(token, 'palabraSecreta')
         req.userId = decoder.id
         next()

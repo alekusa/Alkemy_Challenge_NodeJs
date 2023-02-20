@@ -30,7 +30,7 @@ Api para el challenge de Alkemi.
 }
 ```
 
-#### Logearce si ya esta registrado
+#### Loguearse si ya esta registrado
 
 ```http
   POST /auth/login

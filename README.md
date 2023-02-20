@@ -47,9 +47,9 @@ Api para el challenge de Alkemi.
   GET /user
 ```
 ### Headers
-| KEY           | VALUE    | Description     |
-| :-----------  | :------- | :-------------- |
-| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.XcppbNmZHrR9IsQ6SYeOgImd2PE3aUT2leehBhylyVU` | Generado en Login |
+| KEY           | VALUE    | 
+| :-----------  | :------- | 
+| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzU` |
 
 
 #### Get One User
@@ -60,9 +60,9 @@ Api para el challenge de Alkemi.
 ### Id
 /user/12
 ### Headers
-| KEY           | VALUE    | Description     |
-| :-----------  | :------- | :-------------- |
-| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.XcppbNmZHrR9IsQ6SYeOgImd2PE3aUT2leehBhylyVU` | Generado en Login |
+| KEY           | VALUE    |
+| :-----------  | :------- |
+| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.` | 
 
 
 #### Delete User
@@ -73,9 +73,9 @@ Api para el challenge de Alkemi.
 ### Id
 /user/12
 ### Headers
-| KEY           | VALUE    | Description     |
-| :-----------  | :------- | :-------------- |
-| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.XcppbNmZHrR9IsQ6SYeOgImd2PE3aUT2leehBhylyVU` | Generado en Login |
+| KEY           | VALUE    |
+| :-----------  | :------- |
+| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.` |
 
 ```http
   PUT /user/:id
@@ -83,9 +83,9 @@ Api para el challenge de Alkemi.
 ### Id
 /user/12
 ### Headers
-| KEY           | VALUE    | Description     |
-| :-----------  | :------- | :-------------- |
-| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.XcppbNmZHrR9IsQ6SYeOgImd2PE3aUT2leehBhylyVU` | Generado en Login |
+| KEY           | VALUE    |
+| :-----------  | :------- |
+| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.` |
 ```json
 {
   "username": "NameUpdate",
@@ -101,9 +101,9 @@ Api para el challenge de Alkemi.
   GET /characters
 ```
 ### Headers
-| KEY           | VALUE    | Description     |
-| :-----------  | :------- | :-------------- |
-| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.XcppbNmZHrR9IsQ6SYeOgImd2PE3aUT2leehBhylyVU` | Generado en Login |
+| KEY           | VALUE    |
+| :-----------  | :------- |
+| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.` |
 
 
 #### Get One Character
@@ -114,9 +114,9 @@ Api para el challenge de Alkemi.
 ### Id
 /character/1
 ### Headers
-| KEY           | VALUE    | Description     |
-| :-----------  | :------- | :-------------- |
-| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.XcppbNmZHrR9IsQ6SYeOgImd2PE3aUT2leehBhylyVU` | Generado en Login |
+| KEY           | VALUE    |
+| :-----------  | :------- |
+| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.` |
 
 
 #### Delete Chararter
@@ -127,9 +127,9 @@ Api para el challenge de Alkemi.
 ### Id
 /character/1
 ### Headers
-| KEY           | VALUE    | Description     |
-| :-----------  | :------- | :-------------- |
-| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.XcppbNmZHrR9IsQ6SYeOgImd2PE3aUT2leehBhylyVU` | Generado en Login |
+| KEY           | VALUE    |
+| :-----------  | :------- |
+| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.` |
 
 ```http
   PUT /character/:id
@@ -137,9 +137,9 @@ Api para el challenge de Alkemi.
 ### Id
 /user/12
 ### **Headers**
-| KEY           | VALUE    | Description     |
-| :-----------  | :------- | :-------------- |
-| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.XcppbNmZHrR9IsQ6SYeOgImd2PE3aUT2leehBhylyVU` | Generado en Login |
+| KEY           | VALUE    |
+| :-----------  | :------- |
+| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.` |
 ### **Form-data**
 | KEY           | VALUE    | Description     |
 | :-----------  | :------- | :-------------- |

@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import User from '../models/user.model.js'
-import { token } from '../config/config.js'
+import { tokenenv } from '../config/config.js'
 export const veryfyToken = async (req, res, next) => {
     try {
         const token = req.headers['acces-token']
@@ -9,7 +9,7 @@ export const veryfyToken = async (req, res, next) => {
                 .status(403)
                 .json({ 'Error Message': 'No token provider' })
         //BUG colocar palabraSecreta en Archivo .enc
-        const decoder = jwt.verify(token, token)
+        const decoder = jwt.verify(token, tokenenv)
         req.userId = decoder.id
         next()
     } catch (error) {

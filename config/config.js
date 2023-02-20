@@ -6,4 +6,4 @@ export const NEW_INSTALL = process.env.NEW_INSTALL || 'false'
 export const cloud_name = process.env.cloud_name
 export const api_key = process.env.api_key
 export const api_secret = process.env.api_secret
-export const token = process.env.token
+export const tokenenv = process.env.token || 'palabraSecreta'

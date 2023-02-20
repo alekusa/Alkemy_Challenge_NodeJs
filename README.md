@@ -57,7 +57,6 @@ Api para el challenge de Alkemi.
 ```http
   GET /user/:id
 ```
-### Id
 /user/12
 ### Headers
 | KEY           | VALUE    |
@@ -70,7 +69,6 @@ Api para el challenge de Alkemi.
 ```http
   DELETE /user/:id
 ```
-### Id
 /user/12
 ### Headers
 | KEY           | VALUE    |
@@ -80,7 +78,6 @@ Api para el challenge de Alkemi.
 ```http
   PUT /user/:id
 ```
-### Id
 /user/12
 ### Headers
 | KEY           | VALUE    |
@@ -111,7 +108,6 @@ Api para el challenge de Alkemi.
 ```http
   GET /character/:id
 ```
-### Id
 /character/1
 ### Headers
 | KEY           | VALUE    |
@@ -124,7 +120,6 @@ Api para el challenge de Alkemi.
 ```http
   DELETE /character/:id
 ```
-### Id
 /character/1
 ### Headers
 | KEY           | VALUE    |
@@ -134,7 +129,6 @@ Api para el challenge de Alkemi.
 ```http
   PUT /character/:id
 ```
-### Id
 /user/12
 ### **Headers**
 | KEY           | VALUE    |

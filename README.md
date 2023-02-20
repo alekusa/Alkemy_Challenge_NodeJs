@@ -14,44 +14,141 @@ Api para el challenge de Alkemi.
 
 ![Screenshot](db.png)
 
-## API Reference
+## API Reference Users
 
-#### Get all Users
+#### Registrarce para generar el token,
+
+```http
+  POST /auth/register
+```
+```json
+{
+  "username": "TuNombre",
+  "email": "TuEmail@gmail.com",
+  "password": "password",
+  "role": "admin"
+}
+```
+
+#### Logearce si ya esta registrado
+
+```http
+  POST /auth/login
+```
+```json
+{
+  "email": "TuEmail@gmail.com",
+  "password": "password"
+}
+```
+#### Get User's
 
 ```http
   GET /user
 ```
+### Headers
+| KEY           | VALUE    | Description     |
+| :-----------  | :------- | :-------------- |
+| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.XcppbNmZHrR9IsQ6SYeOgImd2PE3aUT2leehBhylyVU` | Generado en Login |
 
-#### Add User
-
-```http
-  POST /user
-```
-
-| Parameter  | Type     | Description     |
-| :--------- | :------- | :-------------- |
-| `username` | `string` | Nombre Completo |
-| `password` | `string` | 8 caracteres    |
 
 #### Get One User
 
 ```http
   GET /user/:id
 ```
+### Id
+/user/12
+### Headers
+| KEY           | VALUE    | Description     |
+| :-----------  | :------- | :-------------- |
+| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.XcppbNmZHrR9IsQ6SYeOgImd2PE3aUT2leehBhylyVU` | Generado en Login |
 
-| Parameter | Type  | Description                 |
-| :-------- | :---- | :-------------------------- |
-| `id`      | `int` | **Required**.Id of the User |
 
 #### Delete User
 
 ```http
   DELETE /user/:id
 ```
+### Id
+/user/12
+### Headers
+| KEY           | VALUE    | Description     |
+| :-----------  | :------- | :-------------- |
+| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.XcppbNmZHrR9IsQ6SYeOgImd2PE3aUT2leehBhylyVU` | Generado en Login |
 
-| Parameter | Type  | Description                 |
-| :-------- | :---- | :-------------------------- |
-| `id`      | `int` | **Required**.Id of the User |
+```http
+  PUT /user/:id
+```
+### Id
+/user/12
+### Headers
+| KEY           | VALUE    | Description     |
+| :-----------  | :------- | :-------------- |
+| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.XcppbNmZHrR9IsQ6SYeOgImd2PE3aUT2leehBhylyVU` | Generado en Login |
+```json
+{
+  "username": "NameUpdate",
+  "email": "EmailUpdate@gmail.com",
+  "password": "passwordUpdate",
+  "role": "user"
+}
+```
+## API Reference Characters
+#### Get Character's
+
+```http
+  GET /characters
+```
+### Headers
+| KEY           | VALUE    | Description     |
+| :-----------  | :------- | :-------------- |
+| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.XcppbNmZHrR9IsQ6SYeOgImd2PE3aUT2leehBhylyVU` | Generado en Login |
+
+
+#### Get One Character
+
+```http
+  GET /character/:id
+```
+### Id
+/character/1
+### Headers
+| KEY           | VALUE    | Description     |
+| :-----------  | :------- | :-------------- |
+| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.XcppbNmZHrR9IsQ6SYeOgImd2PE3aUT2leehBhylyVU` | Generado en Login |
+
+
+#### Delete Chararter
+
+```http
+  DELETE /character/:id
+```
+### Id
+/character/1
+### Headers
+| KEY           | VALUE    | Description     |
+| :-----------  | :------- | :-------------- |
+| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.XcppbNmZHrR9IsQ6SYeOgImd2PE3aUT2leehBhylyVU` | Generado en Login |
+
+```http
+  PUT /character/:id
+```
+### Id
+/user/12
+### **Headers**
+| KEY           | VALUE    | Description     |
+| :-----------  | :------- | :-------------- |
+| `acces-token` | `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjc2OTIwMzk0fQ.XcppbNmZHrR9IsQ6SYeOgImd2PE3aUT2leehBhylyVU` | Generado en Login |
+### **Form-data**
+| KEY           | VALUE    | Description     |
+| :-----------  | :------- | :-------------- |
+| `name` | `nameCharacter` | type text       |
+| `age`  | 35              | type integer    |
+| `weigth`| 80             | type doube     |
+| `history`|`History del character,, details`| type text |
+| `img`  | file Upload     | type file    |
+
 
 ## Author
 
@@ -60,13 +157,13 @@ Api para el challenge de Alkemi.
 ## Deployment
 
 Proyeto corriendo en Fly.io
-para ejecutarlo despues de instalar las dependecias con
+instalar las dependecias con
 
 ```bash
   npm i
 ```
 
-fue echo el deploy en fli.io
+deploy en fli.io, con el nombre de limpio en (https://limpio.fly.dev/)
 
 ```bash
   fly deploy
@@ -74,15 +171,20 @@ fue echo el deploy en fli.io
 
 ## Environment Variables
 
-las variables de entorno .env
+las variables de entorno .env -> manejadas por el archivo de configuracion config/config.js
 
 `NEW_INSTALL` -> en true para crear y rellenar las tablas
 
 `PORT` -> establece el puerto para deploy y en local
 
+`cloud_name` -> nombre de la nube CLOUDINARY. almacena las imagenes
+`api_key` -> api key provista por cloudinary
+´api_secret` -> api secret provista por cludinari
+`token` -> "palabraSecreta"
+
 ## 🚀 About Me
 
-Soy un programador developer desde 2008, mayormente backend...
+Soy un programador developer desde 2008, mayormente backend.
 
 ## 🔗 Links
 
@@ -92,14 +194,12 @@ Soy un programador developer desde 2008, mayormente backend...
 
 Javascript, NodeJs, React-Native...
 
-## Other Common Github Profile Sections
+## Algunos Datos mas
 
 👩‍💻 Me encuentro trabajndo para el Ejercito Argentino...
 
 🧠 Me encuentro estudiando mas backend...
 
-💬 Ask me about...
-
 📫 Pueden escrivir en alekusa@gmail.com...
 
-⚡️ Batallon de Comunicaciones 141
+⚡️ Mi unidad de destino es el Batallon de Comunicaciones 141

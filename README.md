@@ -16,7 +16,7 @@ Api para el challenge de Alkemi.
 
 ## API Reference Users
 
-#### Registrarce para generar el token,
+#### Registrarse para generar el token,
 
 ```http
   POST /auth/register

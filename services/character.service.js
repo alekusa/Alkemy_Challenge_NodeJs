@@ -112,10 +112,10 @@ class characterService {
         if (object) {
             const newCharacter = await Character.create(object)
             if (object.movie) {
-                const moviesString = object.movie.split(', ')
-                for (let i = 0; i < moviesString.length; i++) {
+                const moviesArray = object.movie.split(', ')
+                for (let i = 0; i < moviesArray.length; i++) {
                     const oneMovie = await Movie.findOne({
-                        where: { title: moviesString[i] }
+                        where: { title: moviesArray[i] }
                     })
                     movie.push(oneMovie)
                 }
@@ -151,9 +151,10 @@ class characterService {
             }
 
             if (object.addMovie) {
-                for (let i = 0; i < object.addMovie.length; i++) {
+                const movieArray = object.addMovie.split(', ')
+                for (let i = 0; i < movieArray.length; i++) {
                     const oneMovie = await Movie.findOne({
-                        where: { title: object.addMovie[i] }
+                        where: { title: movieArray[i] }
                     })
                     movie.push(oneMovie)
                 }

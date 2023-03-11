@@ -13,7 +13,7 @@ import {
 import { isAdmin, veryfyToken } from '../middleware/auth.middleware.js'
 const router = Router()
 
-router.get('/characters', [veryfyToken], characterList)
+router.get('/characters', characterList) //*elimine el veryfyToken para pruebas de la app Fluter
 router.get('/character/:id', veryfyToken, detailCharacters)
 router.get('/character', veryfyToken, findToCharacters)
 router.post('/character', [veryfyToken, isAdmin], addCharacter)
